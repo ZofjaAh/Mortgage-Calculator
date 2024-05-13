@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+group = 'pl.zajavka'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+ext {
+    logbackVersion = '1.4.14'
+    lombokVersion = '1.18.24'
+    springVersion = '5.3.23'
+    junitVersion = '5.9.0'
+    mockitoVersion = '5.8.0'
+}
+
+dependencies {
+    //caly czac sie zmienia versja
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    implementation "org.springframework:spring-core:$springVersion"
+    implementation "org.springframework:spring-beans:$springVersion"
+    implementation "org.springframework:spring-context:$springVersion"
+    implementation "org.springframework:spring-context-support:$springVersion"
+    implementation "org.springframework:spring-expression:$springVersion"
+    implementation "org.springframework:spring-test:$springVersion"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+//
+//    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+//    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.8.0'
+
+
+
+}
+test{
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport{
+    dependsOn test
+    }
+
+repositories {
+    mavenCentral()
+}
+
+compileJava.options.encoding = 'UTF-8'
